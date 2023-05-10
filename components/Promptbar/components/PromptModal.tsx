@@ -21,8 +21,8 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
 
   const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      onUpdatePrompt({ ...prompt, name, description, content: content.trim() });
-      onClose();
+      // onUpdatePrompt({ ...prompt, name, description, content: content.trim() });
+      // onClose();
     }
   };
 

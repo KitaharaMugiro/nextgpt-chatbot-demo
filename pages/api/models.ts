@@ -1,4 +1,9 @@
-import { OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '@/utils/app/const';
+import {
+  OPENAI_API_HOST,
+  OPENAI_API_TYPE,
+  OPENAI_API_VERSION,
+  OPENAI_ORGANIZATION,
+} from '@/utils/app/const';
 
 import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/types/openai';
 
@@ -7,6 +12,17 @@ export const config = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
+  // const models: OpenAIModel[] = [
+  //   {
+  //     id: 'gpt-3.5-turbo',
+  //     name: 'GPT-3.5',
+  //     maxLength: 12000,
+  //     tokenLimit: 4000,
+  //   },
+  // ];
+  // if (models.length > 0)
+  //   return new Response(JSON.stringify(models), { status: 200 });
+
   try {
     const { key } = (await req.json()) as {
       key: string;
@@ -21,14 +37,15 @@ const handler = async (req: Request): Promise<Response> => {
       headers: {
         'Content-Type': 'application/json',
         ...(OPENAI_API_TYPE === 'openai' && {
-          Authorization: `Bearer ${key ? key : process.env.OPENAI_API_KEY}`
+          Authorization: `Bearer ${key ? key : process.env.OPENAI_API_KEY}`,
         }),
         ...(OPENAI_API_TYPE === 'azure' && {
-          'api-key': `${key ? key : process.env.OPENAI_API_KEY}`
+          'api-key': `${key ? key : process.env.OPENAI_API_KEY}`,
         }),
-        ...((OPENAI_API_TYPE === 'openai' && OPENAI_ORGANIZATION) && {
-          'OpenAI-Organization': OPENAI_ORGANIZATION,
-        }),
+        ...(OPENAI_API_TYPE === 'openai' &&
+          OPENAI_ORGANIZATION && {
+            'OpenAI-Organization': OPENAI_ORGANIZATION,
+          }),
       },
     });
 
@@ -50,7 +67,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const models: OpenAIModel[] = json.data
       .map((model: any) => {
-        const model_name = (OPENAI_API_TYPE === 'azure') ? model.model : model.id;
+        const model_name = OPENAI_API_TYPE === 'azure' ? model.model : model.id;
         for (const [key, value] of Object.entries(OpenAIModelID)) {
           if (value === model_name) {
             return {

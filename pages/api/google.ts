@@ -27,7 +27,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     );
 
     const googleData = await googleRes.json();
-
     const sources: GoogleSource[] = googleData.items.map((item: any) => ({
       title: item.title,
       link: item.link,
@@ -69,7 +68,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             return {
               ...source,
               // TODO: switch to tokens
-              text: sourceText.slice(0, 2000),
+              text: sourceText.slice(0, 1000),
             } as GoogleSource;
           }
           // }
@@ -82,8 +81,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       }),
     );
 
-    const filteredSources: GoogleSource[] = sourcesWithText.filter(Boolean);
-
+    const filteredSources: GoogleSource[] = [
+      sourcesWithText.filter(Boolean)[0],
+    ];
     const answerPrompt = endent`
     Provide me with the information I requested. Use the sources to provide an accurate response. Respond in markdown format. Cite the sources you used as a markdown link as you use them at the end of each sentence by number of the source (ex: [[1]](link.com)). Provide an accurate response and then stop. Today's date is ${new Date().toLocaleDateString()}.
 
@@ -107,7 +107,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       `;
     })}
 
-    Response:
+    Response(Lang:ja):
     `;
 
     const answerMessage: Message = { role: 'user', content: answerPrompt };
@@ -131,8 +131,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
           answerMessage,
         ],
         max_tokens: 1000,
-        temperature: 1,
+        temperature: 0,
         stream: false,
+        user: 'google',
       }),
     });
 
@@ -142,7 +143,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     res.status(200).json({ answer });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error'})
+    res.status(500).json({ error: 'Error' });
   }
 };
 
