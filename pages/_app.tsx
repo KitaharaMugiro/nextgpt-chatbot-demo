@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -6,38 +7,44 @@ import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 
-import LoginPage from '@/components/Login/LoginPage';
-
 import '@/styles/globals.css';
+import { MantineProvider } from '@mantine/core';
+import {
+  createBrowserSupabaseClient,
+  createServerSupabaseClient,
+} from '@supabase/auth-helpers-nextjs';
 
 const inter = Inter({ subsets: ['latin'] });
 
-function App({ Component, pageProps }: AppProps<{}>) {
+function App(props: AppProps) {
   const queryClient = new QueryClient();
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    const storedUserName = localStorage.getItem('user_name');
-    if (!storedUserName) {
-      setIsLogin(false);
-    } else {
-      setIsLogin(true);
-    }
-  }, []);
+  const { Component, pageProps } = props;
 
-  if (!isLogin) {
-    return (
-      <div>
-        <LoginPage onLogin={() => setIsLogin(true)} />
-      </div>
-    );
+  // Create a new supabase browser client on every first render.
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+  if (typeof window !== 'undefined') {
+    document.documentElement.classList.add('dark');
   }
 
   return (
     <div className={inter.className}>
-      <Toaster />
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
+        <Toaster />
+        <QueryClientProvider client={queryClient}>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              colorScheme: 'dark',
+            }}
+          >
+            <Component {...pageProps} />
+          </MantineProvider>
+        </QueryClientProvider>
+      </SessionContextProvider>
     </div>
   );
 }

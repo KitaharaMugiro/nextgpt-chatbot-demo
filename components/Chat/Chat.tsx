@@ -1,3 +1,4 @@
+import { useUser } from '@supabase/auth-helpers-react';
 import { IconClearAll, IconSettings } from '@tabler/icons-react';
 import {
   MutableRefObject,
@@ -40,6 +41,7 @@ interface Props {
 
 export const Chat = memo(({ stopConversationRef }: Props) => {
   const { t } = useTranslation('chat');
+  const supabaseUser = useUser();
 
   const {
     state: {
@@ -70,7 +72,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
 
   const handleSend = useCallback(
     async (message: Message, deleteCount = 0, plugin: Plugin | null = null) => {
-      const user = localStorage.getItem('user_name');
       if (selectedConversation) {
         let updatedConversation: Conversation;
         if (deleteCount) {
@@ -100,7 +101,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           key: apiKey,
           prompt: updatedConversation.prompt,
           temperature: updatedConversation.temperature,
-          user: user || 'Anonymous',
+          user: supabaseUser?.email || 'Anonymous',
         };
         const endpoint = getEndpoint(plugin);
         let body;
@@ -316,13 +317,14 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   //     homeDispatch({ field: 'currentMessage', value: undefined });
   //   }
   // }, [currentMessage]);
-
+  const user = useUser();
   useEffect(() => {
     throttledScrollDown();
     selectedConversation &&
       setCurrentMessage(
         selectedConversation.messages[selectedConversation.messages.length - 2],
       );
+    console.log('user', user);
   }, [selectedConversation, throttledScrollDown]);
 
   useEffect(() => {
