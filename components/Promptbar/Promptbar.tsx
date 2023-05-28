@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
 import { savePrompts } from '@/utils/app/prompts';
+import { initialPrompts } from '@/utils/data/setIntialPrompt';
 
 import { OpenAIModels } from '@/types/openai';
 import { Prompt } from '@/types/prompt';
@@ -41,6 +42,13 @@ const Promptbar = () => {
   const handleTogglePromptbar = () => {
     homeDispatch({ field: 'showPromptbar', value: !showPromptbar });
     localStorage.setItem('showPromptbar', JSON.stringify(!showPromptbar));
+  };
+
+  const createInitialPrompt = () => {
+    // const updatedPrompts = [...prompts, ...initialPrompts];
+
+    homeDispatch({ field: 'prompts', value: initialPrompts });
+    savePrompts(initialPrompts);
   };
 
   const handleCreatePrompt = () => {
@@ -96,6 +104,10 @@ const Promptbar = () => {
       e.target.style.background = 'none';
     }
   };
+
+  useEffect(() => {
+    createInitialPrompt();
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {

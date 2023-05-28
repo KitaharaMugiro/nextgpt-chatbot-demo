@@ -24,6 +24,10 @@ import {
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
 import { getSettings } from '@/utils/app/settings';
+import {
+  initialConversations,
+  initialFolders,
+} from '@/utils/data/setIntialPrompt';
 
 import { Conversation } from '@/types/chat';
 import { KeyValuePair } from '@/types/data';
@@ -112,6 +116,12 @@ const Home = ({
   };
 
   // FOLDER OPERATIONS  --------------------------------------------
+  const handleInitialFolder = () => {
+    const updatedFolders = [...folders, ...initialFolders];
+
+    dispatch({ field: 'folders', value: updatedFolders });
+    saveFolders(updatedFolders);
+  };
 
   const handleCreateFolder = (name: string, type: FolderType) => {
     const newFolder: FolderInterface = {
@@ -179,6 +189,16 @@ const Home = ({
 
   // CONVERSATION OPERATIONS  --------------------------------------------
 
+  const handleInitialConversation = () => {
+    const updatedConversations = [...conversations, ...initialConversations];
+
+    dispatch({ field: 'conversations', value: updatedConversations });
+
+    saveConversations(updatedConversations);
+
+    dispatch({ field: 'loading', value: false });
+  };
+
   const handleNewConversation = () => {
     const lastConversation = conversations[conversations.length - 1];
 
@@ -227,6 +247,11 @@ const Home = ({
   };
 
   // EFFECTS  --------------------------------------------
+
+  useEffect(() => {
+    handleInitialFolder();
+    handleInitialConversation();
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth < 640) {
