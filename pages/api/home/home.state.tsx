@@ -1,3 +1,9 @@
+import {
+  initialConversations,
+  initialFolders,
+  initialPrompts,
+} from '@/utils/data/setIntialPrompt';
+
 import { Conversation, Message } from '@/types/chat';
 import { ErrorMessage } from '@/types/error';
 import { FolderInterface } from '@/types/folder';
@@ -37,11 +43,11 @@ export const initialState: HomeInitialState = {
   messageIsStreaming: false,
   modelError: null,
   models: [],
-  folders: [],
-  conversations: [],
+  folders: initialFolders,
+  conversations: initialConversations,
   selectedConversation: undefined,
   currentMessage: undefined,
-  prompts: [],
+  prompts: initialPrompts,
   temperature: 1,
   showPromptbar: true,
   showChatbar: true,
