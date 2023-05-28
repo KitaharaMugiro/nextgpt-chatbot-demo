@@ -26,29 +26,14 @@ export const initialFolders: FolderInterface[] = [
     type: 'chat',
   },
   {
-    id: '1',
-    name: '経営・事業企画',
-    type: 'prompt',
-  },
-  {
     id: '2',
     name: '生産・物流・購買',
     type: 'chat',
   },
   {
-    id: '2',
-    name: '生産・物流・購買',
-    type: 'prompt',
-  },
-  {
     id: '3',
     name: '広報・マーケティング',
     type: 'chat',
-  },
-  {
-    id: '3',
-    name: '広報・マーケティング',
-    type: 'prompt',
   },
   {
     id: '4',
@@ -56,7 +41,25 @@ export const initialFolders: FolderInterface[] = [
     type: 'chat',
   },
   {
-    id: '4',
+    id: '5',
+    name: '経営・事業企画',
+    type: 'prompt',
+  },
+
+  {
+    id: '6',
+    name: '生産・物流・購買',
+    type: 'prompt',
+  },
+
+  {
+    id: '7',
+    name: '広報・マーケティング',
+    type: 'prompt',
+  },
+
+  {
+    id: '8',
     name: '営業',
     type: 'prompt',
   },
@@ -84,7 +87,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '1',
+    folderId: '5',
   },
   {
     id: uuidv4(),
@@ -101,7 +104,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '2',
+    folderId: '6',
   },
   {
     id: uuidv4(),
@@ -158,7 +161,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '3',
+    folderId: '7',
   },
   {
     id: uuidv4(),
@@ -196,7 +199,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '4',
+    folderId: '8',
   },
 ];
 
@@ -265,7 +268,7 @@ export const initialConversations: Conversation[] = [
     キャッチフレーズを通じて顧客に感じさせたい印象や価値は何ですか？
     これらの質問に基づいて、短くて魅力的なキャッチフレーズを考えてください。そのキャッチフレーズがあなたの新規事業の特徴や魅力を引き立て、顧客に印象づける役割を果たすことが重要です。`,
     temperature: DEFAULT_TEMPERATURE,
-    folderId: '3',
+    folderId: '5',
   },
   {
     id: uuidv4(),
@@ -287,7 +290,7 @@ export const initialConversations: Conversation[] = [
     
     No repeat, no remarks, only results, in Japanese:`,
     temperature: DEFAULT_TEMPERATURE,
-    folderId: '4',
+    folderId: '7',
   },
   {
     id: uuidv4(),
