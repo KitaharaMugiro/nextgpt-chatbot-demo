@@ -8,6 +8,10 @@ import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { saveConversation, saveConversations } from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { exportData, importData } from '@/utils/app/importExport';
+import {
+  initialConversations,
+  initialFolders,
+} from '@/utils/data/setIntialPrompt';
 
 import { Conversation } from '@/types/chat';
 import { LatestExportFormat, SupportedExportFormats } from '@/types/export';
@@ -126,15 +130,21 @@ export const Chatbar = () => {
         },
       });
 
-    homeDispatch({ field: 'conversations', value: [] });
+    homeDispatch({ field: 'conversations', value: initialConversations });
 
     localStorage.removeItem('conversationHistory');
     localStorage.removeItem('selectedConversation');
 
     const updatedFolders = folders.filter((f) => f.type !== 'chat');
+    const initialChatFolders = initialFolders.filter(
+      (f) => f.type !== 'prompt',
+    );
 
-    homeDispatch({ field: 'folders', value: updatedFolders });
-    saveFolders(updatedFolders);
+    homeDispatch({
+      field: 'folders',
+      value: [...updatedFolders, ...initialChatFolders],
+    });
+    saveFolders([...updatedFolders, ...initialChatFolders]);
   };
 
   const handleDeleteConversation = (conversation: Conversation) => {

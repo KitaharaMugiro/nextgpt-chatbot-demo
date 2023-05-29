@@ -26,29 +26,14 @@ export const initialFolders: FolderInterface[] = [
     type: 'chat',
   },
   {
-    id: '1',
-    name: '経営・事業企画',
-    type: 'prompt',
-  },
-  {
     id: '2',
     name: '生産・物流・購買',
     type: 'chat',
   },
   {
-    id: '2',
-    name: '生産・物流・購買',
-    type: 'prompt',
-  },
-  {
     id: '3',
     name: '広報・マーケティング',
     type: 'chat',
-  },
-  {
-    id: '3',
-    name: '広報・マーケティング',
-    type: 'prompt',
   },
   {
     id: '4',
@@ -56,7 +41,25 @@ export const initialFolders: FolderInterface[] = [
     type: 'chat',
   },
   {
-    id: '4',
+    id: '5',
+    name: '経営・事業企画',
+    type: 'prompt',
+  },
+
+  {
+    id: '6',
+    name: '生産・物流・購買',
+    type: 'prompt',
+  },
+
+  {
+    id: '7',
+    name: '広報・マーケティング',
+    type: 'prompt',
+  },
+
+  {
+    id: '8',
     name: '営業',
     type: 'prompt',
   },
@@ -84,7 +87,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '1',
+    folderId: '5',
   },
   {
     id: uuidv4(),
@@ -101,7 +104,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '2',
+    folderId: '6',
   },
   {
     id: uuidv4(),
@@ -158,7 +161,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '3',
+    folderId: '7',
   },
   {
     id: uuidv4(),
@@ -196,7 +199,7 @@ export const initialPrompts: Prompt[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    folderId: '4',
+    folderId: '8',
   },
 ];
 
@@ -211,8 +214,15 @@ export const initialConversations: Conversation[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '1')[0]
-      .content,
+    prompt: `あなたは新規事業立案者です。
+    新たなビジネスのアイデアを探求しましょう。以下の質問について考え、具体的な事業アイデアを提案してください。
+    
+    あなたが解決したい問題や満たしたいニーズは何ですか？
+    それに対する独自の解決策やアプローチはありますか？
+    あなたの事業が提供する価値や利点は何ですか？
+    類似する既存の事業や競合他社との差別化ポイントは何ですか？
+    あなたのターゲット市場や顧客層はどのようなものですか？
+    これらの質問に基づいて、あなたの新規事業のコンセプトや独自性を具体的に説明してください。`,
     temperature: DEFAULT_TEMPERATURE,
     folderId: '1',
   },
@@ -226,8 +236,15 @@ export const initialConversations: Conversation[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '2')[0]
-      .content,
+    prompt: `あなたは新規事業の市場分析を行っています。
+    新しいビジネスの市場分析について考えてみましょう。以下の質問に基づいて、市場の現状やトレンド、顧客のニーズなどについて分析し、具体的な事業アイデアを検討してください。
+    
+    どのような市場に参入するかを決めていますか？その市場は成長していますか？
+    現在の競合他社や既存の事業はどのような特徴や課題を抱えていますか？
+    顧客のニーズや傾向は何ですか？市場のトレンドや変化はありますか？
+    あなたの新規事業が提供する独自の価値や利点は何ですか？市場での競争力はどうですか？
+    あなたのターゲット市場や顧客層はどのようなものですか？それらの人々の課題や要望は何ですか？
+    これらの質問に基づいて、市場分析の結果を考慮した新規事業のアイデアを具体的に提案してください。市場のニーズやトレンドを踏まえた差別化ポイントや市場での競争力を考えることが重要です。`,
     temperature: DEFAULT_TEMPERATURE,
     folderId: '2',
   },
@@ -241,25 +258,17 @@ export const initialConversations: Conversation[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '3')[0]
-      .content,
+    prompt: `あなたは新規事業のキャッチフレーズを考えています。
+    魅力的なキャッチフレーズを創出しましょう。以下の質問に基づいて、あなたの新規事業のコンセプトや独自性を反映したキャッチフレーズを考えてください。
+    
+    あなたの事業が提供する価値や利点は何ですか？一言で表現するとしたら何ですか？
+    ターゲット市場や顧客層に対して何を伝えたいですか？
+    あなたの事業が解決する問題や満たすニーズを強調するキーワードは何ですか？
+    あなたの事業の独自性や差別化ポイントを強調するキーワードは何ですか？
+    キャッチフレーズを通じて顧客に感じさせたい印象や価値は何ですか？
+    これらの質問に基づいて、短くて魅力的なキャッチフレーズを考えてください。そのキャッチフレーズがあなたの新規事業の特徴や魅力を引き立て、顧客に印象づける役割を果たすことが重要です。`,
     temperature: DEFAULT_TEMPERATURE,
-    folderId: '3',
-  },
-  {
-    id: uuidv4(),
-    name: 'リスト作成',
-    messages: [],
-    model: {
-      id: OpenAIModels[defaultModelId].id,
-      name: OpenAIModels[defaultModelId].name,
-      maxLength: OpenAIModels[defaultModelId].maxLength,
-      tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
-    },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '4')[0]
-      .content,
-    temperature: DEFAULT_TEMPERATURE,
-    folderId: '4',
+    folderId: '5',
   },
   {
     id: uuidv4(),
@@ -271,10 +280,17 @@ export const initialConversations: Conversation[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '4')[0]
-      .content,
+    prompt: `あなたは日本の会社の総務部と人事部のプロです。
+
+    4月から、新入社員が2名、中途採用が1名入社します。
+    入社受け入れのためのTo-Doリストとスケジュールを
+    
+    日本の会社の事情と、日本の法令も意識しつつ、
+    作成してください。
+    
+    No repeat, no remarks, only results, in Japanese:`,
     temperature: DEFAULT_TEMPERATURE,
-    folderId: '4',
+    folderId: '7',
   },
   {
     id: uuidv4(),
@@ -286,8 +302,8 @@ export const initialConversations: Conversation[] = [
       maxLength: OpenAIModels[defaultModelId].maxLength,
       tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
     },
-    prompt: initialPrompts.filter((prompt) => prompt.folderId === '4')[0]
-      .content,
+    prompt:
+      'あなたは取引先に営業メールを書きます。相手を不快にさせないように気をつけて、メールを作成してください。',
     temperature: DEFAULT_TEMPERATURE,
     folderId: '4',
   },

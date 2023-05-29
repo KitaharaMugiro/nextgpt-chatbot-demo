@@ -249,11 +249,6 @@ const Home = ({
   // EFFECTS  --------------------------------------------
 
   useEffect(() => {
-    handleInitialFolder();
-    handleInitialConversation();
-  }, []);
-
-  useEffect(() => {
     if (window.innerWidth < 640) {
       dispatch({ field: 'showChatbar', value: false });
     }

@@ -44,13 +44,6 @@ const Promptbar = () => {
     localStorage.setItem('showPromptbar', JSON.stringify(!showPromptbar));
   };
 
-  const createInitialPrompt = () => {
-    // const updatedPrompts = [...prompts, ...initialPrompts];
-
-    homeDispatch({ field: 'prompts', value: initialPrompts });
-    savePrompts(initialPrompts);
-  };
-
   const handleCreatePrompt = () => {
     if (defaultModelId) {
       const newPrompt: Prompt = {
@@ -104,10 +97,6 @@ const Promptbar = () => {
       e.target.style.background = 'none';
     }
   };
-
-  useEffect(() => {
-    createInitialPrompt();
-  }, []);
 
   useEffect(() => {
     if (searchTerm) {
