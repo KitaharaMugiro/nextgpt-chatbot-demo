@@ -1,18 +1,9 @@
-import {
-  OPENAI_API_HOST,
-  OPENAI_API_TYPE,
-  OPENAI_API_VERSION,
-  OPENAI_ORGANIZATION,
-} from '@/utils/app/const';
-
-import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/types/openai';
-
 export const config = {
   runtime: 'edge',
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  const validAccountCsv = `
+  const validAccountCsv = `admin,admin
     account1,password1
     account2,password2
     account3,password3

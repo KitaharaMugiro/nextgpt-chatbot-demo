@@ -361,7 +361,7 @@ const Home = ({
       }}
     >
       <Head>
-        <title>NextGPT UI</title>
+        <title>LangCore Chat</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
