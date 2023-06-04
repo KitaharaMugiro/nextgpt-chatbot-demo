@@ -428,23 +428,22 @@ export const getServerSideProps: GetServerSideProps = async (
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
+  // if (!session)
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   };
 
-  console.log('user', user);
 
-  if (!user)
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
+  // if (!user)
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   };
 
   const defaultModelId =
     (process.env.DEFAULT_MODEL &&

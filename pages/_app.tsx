@@ -22,9 +22,7 @@ function App(props: AppProps) {
 
   // Create a new supabase browser client on every first render.
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
-  if (typeof window !== 'undefined') {
-    document.documentElement.classList.add('dark');
-  }
+
 
   return (
     <div className={inter.className}>
@@ -38,7 +36,7 @@ function App(props: AppProps) {
             withGlobalStyles
             withNormalizeCSS
             theme={{
-              colorScheme: 'dark',
+              colorScheme: 'light',
             }}
           >
             <Component {...pageProps} />
