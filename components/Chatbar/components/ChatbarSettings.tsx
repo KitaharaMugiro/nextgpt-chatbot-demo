@@ -1,4 +1,4 @@
-import { IconFileExport, IconSettings } from '@tabler/icons-react';
+import { IconFileExport, IconLogout, IconSettings } from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
@@ -13,10 +13,20 @@ import { SidebarButton } from '../../Sidebar/SidebarButton';
 import ChatbarContext from '../Chatbar.context';
 import { ClearConversations } from './ClearConversations';
 import { PluginKeys } from './PluginKeys';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import router from 'next/router';
 
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
+
+  const supabaseClient = useSupabaseClient()
+  const onClickLogout = () => {
+    supabaseClient.auth.signOut().then(() => {
+      router.push("/")
+    })
+  }
+
 
   const {
     state: {
@@ -60,6 +70,12 @@ export const ChatbarSettings = () => {
       ) : null}
 
       {/* {!serverSidePluginKeysSet ? <PluginKeys /> : null} */}
+
+      <SidebarButton
+        text={'Signout'}
+        icon={<IconLogout size={18} />}
+        onClick={() => onClickLogout()}
+      />
 
       <SettingDialog
         open={isSettingDialogOpen}
