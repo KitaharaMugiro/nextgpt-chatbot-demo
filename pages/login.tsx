@@ -5,6 +5,8 @@ import { useLoginUser } from '@/services/hooks/loginUser';
 import { LoginPaper } from '@/components/Login/LoginPaper';
 
 import { createStyles, rem } from '@mantine/core';
+import { GetServerSideProps } from 'next';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -23,4 +25,23 @@ export default function Login() {
       <LoginPaper />
     </div>
   );
+}
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const supabase = createServerSupabaseClient(context);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  return {
+    props: {},
+  };
 }
