@@ -72,7 +72,7 @@ export const ChatbarSettings = () => {
       {/* {!serverSidePluginKeysSet ? <PluginKeys /> : null} */}
 
       <SidebarButton
-        text={'Signout'}
+        text={t('Signout')}
         icon={<IconLogout size={18} />}
         onClick={() => onClickLogout()}
       />
