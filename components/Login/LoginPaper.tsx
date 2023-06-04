@@ -90,6 +90,7 @@ export function LoginPaper() {
       setLoading(false);
       refreshUserSettings();
     };
+    
     const GoogleIcon = () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
