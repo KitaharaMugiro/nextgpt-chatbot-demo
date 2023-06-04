@@ -89,6 +89,7 @@ export function LoginPaper() {
       }
       setLoading(false);
       refreshUserSettings();
+      router.push('/');
     };
     
     const GoogleIcon = () => (
