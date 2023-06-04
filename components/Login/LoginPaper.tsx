@@ -71,7 +71,7 @@ export function LoginPaper() {
         }}
       >
         <div />
-        <Anchor<'a'> href="#" weight={700} onClick={resetHandler}>
+        <Anchor<'a'>  weight={700} onClick={resetHandler}>
           Forgot your password?
         </Anchor>
       </div>
