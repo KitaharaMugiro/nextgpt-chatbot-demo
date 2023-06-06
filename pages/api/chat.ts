@@ -40,6 +40,18 @@ const handler = async (req: Request): Promise<Response> => {
     let tokenCount = prompt_tokens.length;
     let messagesToSend: Message[] = [];
 
+    //最新メッセージにEmbeddingsを追加する
+    const IsEmbeddingsOn = true;
+    if (IsEmbeddingsOn) {
+      const EMBEDDINGS_PREFIX = `[CONTEXT]\n{{EMBEDDINGS_CONTEXT}}`
+      const lastMessage = messages[messages.length - 1];
+      const modifiedLastMessage = {
+        ...lastMessage,
+        content: lastMessage.content + "\n" + EMBEDDINGS_PREFIX
+      }
+      messages[messages.length - 1] = modifiedLastMessage;
+    }
+
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
       const tokens = encoding.encode(message.content);
@@ -60,6 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
       key,
       messagesToSend,
       user,
+      IsEmbeddingsOn
     );
 
     return new Response(stream);
