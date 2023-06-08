@@ -74,7 +74,7 @@ export const OpenAIStream = async (
       ],
       ...(embeddingsOn && {
         query: latestContent,
-        groupName: "GROUP2",
+        groupName: "DEMO2",
       }),
       max_tokens: 1000,
       temperature: temperature,
