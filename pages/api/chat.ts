@@ -40,10 +40,13 @@ const handler = async (req: Request): Promise<Response> => {
     let tokenCount = prompt_tokens.length;
     let messagesToSend: Message[] = [];
 
-    //最新メッセージにEmbeddingsを追加する
+
+    //この辺どうにかならないかなとは思う。
     const IsEmbeddingsOn = true;
+    const GroupName = "Demo"
     let query = ""
     if (IsEmbeddingsOn) {
+      //最新メッセージにEmbeddingsを追加する
       const lastMessage = messages[messages.length - 1];
       const modifiedLastMessage = {
         ...lastMessage,
@@ -74,7 +77,8 @@ const handler = async (req: Request): Promise<Response> => {
       messagesToSend,
       user,
       IsEmbeddingsOn,
-      query
+      query,
+      GroupName
     );
 
     return new Response(stream);

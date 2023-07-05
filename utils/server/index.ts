@@ -37,7 +37,8 @@ export const OpenAIStream = async (
   messages: Message[],
   user: string,
   embeddingsOn: boolean,
-  query: string
+  query: string,
+  groupName: string
 ) => {
   let url = `${OPENAI_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
@@ -73,8 +74,8 @@ export const OpenAIStream = async (
         ...messages,
       ],
       ...(embeddingsOn && {
-        query: query,
-        groupName: "DEMO2",
+        query,
+        groupName,
       }),
       max_tokens: 1000,
       temperature: temperature,
