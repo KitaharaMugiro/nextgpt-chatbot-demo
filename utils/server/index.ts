@@ -36,6 +36,9 @@ export const OpenAIStream = async (
   key: string,
   messages: Message[],
   user: string,
+  embeddingsOn: boolean,
+  query: string,
+  groupName: string
 ) => {
   let url = `${OPENAI_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
@@ -52,8 +55,13 @@ export const OpenAIStream = async (
       }),
       ...(OPENAI_API_TYPE === 'openai' &&
         OPENAI_ORGANIZATION && {
-          'OpenAI-Organization': OPENAI_ORGANIZATION,
-        }),
+        'OpenAI-Organization': OPENAI_ORGANIZATION,
+      }),
+      ...(embeddingsOn && {
+        "LangCore-Embeddings": "on",
+        "LangCore-Embeddings-Match-Threshold": "0.6",
+        "LangCore-Embeddings-Match-Count": "3",
+      })
     },
     method: 'POST',
     body: JSON.stringify({
@@ -65,6 +73,10 @@ export const OpenAIStream = async (
         },
         ...messages,
       ],
+      ...(embeddingsOn && {
+        query,
+        groupName,
+      }),
       max_tokens: 1000,
       temperature: temperature,
       stream: true,
@@ -86,8 +98,7 @@ export const OpenAIStream = async (
       );
     } else {
       throw new Error(
-        `OpenAI API returned an error: ${
-          decoder.decode(result?.value) || result.statusText
+        `OpenAI API returned an error: ${decoder.decode(result?.value) || result.statusText
         }`,
       );
     }

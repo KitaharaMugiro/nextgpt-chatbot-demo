@@ -40,6 +40,22 @@ const handler = async (req: Request): Promise<Response> => {
     let tokenCount = prompt_tokens.length;
     let messagesToSend: Message[] = [];
 
+
+    //この辺どうにかならないかなとは思う。
+    const IsEmbeddingsOn = true;
+    const GroupName = "Demo"
+    let query = ""
+    if (IsEmbeddingsOn) {
+      //最新メッセージにEmbeddingsを追加する
+      const lastMessage = messages[messages.length - 1];
+      const modifiedLastMessage = {
+        ...lastMessage,
+        content: "[CONTEXT]\n{{EMBEDDINGS_CONTEXT}}\n[/CONTEXT]\n" + lastMessage.content
+      }
+      query = lastMessage.content
+      messages[messages.length - 1] = modifiedLastMessage;
+    }
+
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
       const tokens = encoding.encode(message.content);
@@ -60,6 +76,9 @@ const handler = async (req: Request): Promise<Response> => {
       key,
       messagesToSend,
       user,
+      IsEmbeddingsOn,
+      query,
+      GroupName
     );
 
     return new Response(stream);
