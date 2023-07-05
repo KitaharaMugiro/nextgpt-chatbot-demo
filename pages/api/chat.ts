@@ -8,6 +8,7 @@ import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module
 
 import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
+import { checkEmbeddings } from './check-embeddings';
 
 export const config = {
   runtime: 'edge',
@@ -40,19 +41,22 @@ const handler = async (req: Request): Promise<Response> => {
     let tokenCount = prompt_tokens.length;
     let messagesToSend: Message[] = [];
 
+    // check embeddings
+    const lastMessage = messages[messages.length - 1];
+    const checkResult = await checkEmbeddings(lastMessage.content, key ? key : process.env.OPENAI_API_KEY!)
 
     //この辺どうにかならないかなとは思う。
-    const IsEmbeddingsOn = true;
-    const GroupName = "Demo"
-    let query = ""
+    const IsEmbeddingsOn = checkResult.check;
+    const embeddingsSearchQuery = checkResult.query || lastMessage.content
+    console.log({ IsEmbeddingsOn, embeddingsSearchQuery })
+    const GroupName = "DEMO" //ここが完全一致してないと引っかからないの本当にやばい。気づくのが難しい。
     if (IsEmbeddingsOn) {
       //最新メッセージにEmbeddingsを追加する
-      const lastMessage = messages[messages.length - 1];
+
       const modifiedLastMessage = {
         ...lastMessage,
         content: "[CONTEXT]\n{{EMBEDDINGS_CONTEXT}}\n[/CONTEXT]\n" + lastMessage.content
       }
-      query = lastMessage.content
       messages[messages.length - 1] = modifiedLastMessage;
     }
 
@@ -77,7 +81,7 @@ const handler = async (req: Request): Promise<Response> => {
       messagesToSend,
       user,
       IsEmbeddingsOn,
-      query,
+      embeddingsSearchQuery,
       GroupName
     );
 

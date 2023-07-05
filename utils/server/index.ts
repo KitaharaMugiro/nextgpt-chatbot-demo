@@ -59,7 +59,7 @@ export const OpenAIStream = async (
       }),
       ...(embeddingsOn && {
         "LangCore-Embeddings": "on",
-        "LangCore-Embeddings-Match-Threshold": "0.6",
+        "LangCore-Embeddings-Match-Threshold": "0.3",
         "LangCore-Embeddings-Match-Count": "3",
       })
     },
