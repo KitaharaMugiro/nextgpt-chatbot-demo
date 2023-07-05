@@ -36,9 +36,9 @@ export const OpenAIStream = async (
   key: string,
   messages: Message[],
   user: string,
-  embeddingsOn: boolean
+  embeddingsOn: boolean,
+  query: string
 ) => {
-  const latestContent = messages[messages.length - 1].content;
   let url = `${OPENAI_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
     url = `${OPENAI_API_HOST}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
@@ -58,7 +58,7 @@ export const OpenAIStream = async (
       }),
       ...(embeddingsOn && {
         "LangCore-Embeddings": "on",
-        "LangCore-Embeddings-Match-Threshold": "0.4",
+        "LangCore-Embeddings-Match-Threshold": "0.6",
         "LangCore-Embeddings-Match-Count": "3",
       })
     },
@@ -73,7 +73,7 @@ export const OpenAIStream = async (
         ...messages,
       ],
       ...(embeddingsOn && {
-        query: latestContent,
+        query: query,
         groupName: "DEMO2",
       }),
       max_tokens: 1000,

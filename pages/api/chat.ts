@@ -42,13 +42,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     //最新メッセージにEmbeddingsを追加する
     const IsEmbeddingsOn = true;
+    let query = ""
     if (IsEmbeddingsOn) {
-      const EMBEDDINGS_PREFIX = `[CONTEXT]\n{{EMBEDDINGS_CONTEXT}}`
       const lastMessage = messages[messages.length - 1];
       const modifiedLastMessage = {
         ...lastMessage,
-        content: lastMessage.content + "\n" + EMBEDDINGS_PREFIX
+        content: "[CONTEXT]\n{{EMBEDDINGS_CONTEXT}}\n[/CONTEXT]\n" + lastMessage.content
       }
+      query = lastMessage.content
       messages[messages.length - 1] = modifiedLastMessage;
     }
 
@@ -72,7 +73,8 @@ const handler = async (req: Request): Promise<Response> => {
       key,
       messagesToSend,
       user,
-      IsEmbeddingsOn
+      IsEmbeddingsOn,
+      query
     );
 
     return new Response(stream);
